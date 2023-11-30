@@ -1,0 +1,29 @@
+body
+{
+    background-color: antiquewhite;
+    height: auto;
+    width: auto;
+    position: absolute;
+}
+.field
+{
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 20%;
+    margin-bottom: 20%;
+    border-width: 5px;
+    border-radius: 15px;
+    border-color: black;
+    border-style: solid;
+    padding: 3px;
+}
+.hand
+{
+    position: relative;
+    bottom: 0px;
+}
+.container
+{
+    height: 100%;
+    position: relative;
+}
