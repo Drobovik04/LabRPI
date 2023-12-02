@@ -69,8 +69,6 @@ body
     flex: 1;
     display: flex;
     padding: 5px;
-    animation-duration: 1s;
-    animation-name: backforcards;
 }
 .card-paper
 {
@@ -83,8 +81,6 @@ body
     flex: 1;
     display: flex;
     padding: 5px;
-    animation-duration: 1s;
-    animation-name: backforcards;
 }
 .card-scissors
 {
@@ -97,8 +93,6 @@ body
     flex: 1;
     display: flex;
     padding: 5px;
-    animation-duration: 1s;
-    animation-name: backforcards;
 }
 .card-undef
 {
@@ -111,8 +105,6 @@ body
     flex: 1;
     display: flex;
     padding: 5px;
-    animation-duration: 1s;
-    animation-name: backforcards;
 }
 .scissors
 {
@@ -123,7 +115,7 @@ body
     align-items: center;
     width: 100%;
     height: 100%;
-    font-size: 7cqw;
+    font-size: min(10cqw, 10cqh);
 }
 .paper
 {
@@ -134,7 +126,7 @@ body
     align-items: center;
     width: 100%;
     height: 100%;
-    font-size: 7cqw;
+    font-size: min(10cqw, 10cqh);
 }
 .rock
 {
@@ -145,7 +137,7 @@ body
     align-items: center;
     width: 100%;
     height: 100%;
-    font-size: 7cqw;
+    font-size: min(10cqw, 10cqh);
 }
 .undef
 {
@@ -156,12 +148,9 @@ body
     align-items: center;
     width: 100%;
     height: 100%;
-    font-size: 7cqw;
+    font-size: min(10cqw, 10cqh);
 }
 .menu
 {
     width: 25%;
-}
-@keyframes backforcards {
-    
 }
