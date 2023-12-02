@@ -67,6 +67,10 @@ body
     border-style: solid;
     height: 100%;
     flex: 1;
+    display: flex;
+    padding: 5px;
+    animation-duration: 1s;
+    animation-name: backforcards;
 }
 .card-paper
 {
@@ -77,6 +81,10 @@ body
     border-style: solid;
     height: 100%;
     flex: 1;
+    display: flex;
+    padding: 5px;
+    animation-duration: 1s;
+    animation-name: backforcards;
 }
 .card-scissors
 {
@@ -87,6 +95,10 @@ body
     border-style: solid;
     height: 100%;
     flex: 1;
+    display: flex;
+    padding: 5px;
+    animation-duration: 1s;
+    animation-name: backforcards;
 }
 .card-undef
 {
@@ -97,20 +109,59 @@ body
     border-style: solid;
     height: 100%;
     flex: 1;
+    display: flex;
+    padding: 5px;
+    animation-duration: 1s;
+    animation-name: backforcards;
 }
 .scissors
 {
-
+    flex: 1;
+    background-color: #F3CF71;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    font-size: 7cqw;
 }
 .paper
 {
-
+    flex: 1;
+    background-color: #F3CF71;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    font-size: 7cqw;
 }
 .rock
 {
-    
+    flex: 1;
+    background-color: #F3CF71;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    font-size: 7cqw;
+}
+.undef
+{
+    flex: 1;
+    background-color: #F3CF71;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    font-size: 7cqw;
 }
 .menu
 {
     width: 25%;
+}
+@keyframes backforcards {
+    
 }
