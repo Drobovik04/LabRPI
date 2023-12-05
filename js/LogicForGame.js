@@ -18,7 +18,12 @@ function ForbtnStart()
 
 function ChooseCard(element)
 {
-    chosenCard = element.className;
+    if (chosenCard!=null)
+    {
+        chosenCard.style.borderColor='black'
+    }
+    chosenCard = element;
+    chosenCard.style.borderColor='red';
 }
 
 //Ссылки на настройки
@@ -34,5 +39,5 @@ const btnStart = document.querySelector('.button.start'); // кнопка "Ст�
 //События
 btnStart.addEventListener('click', ForbtnStart);
 cards.forEach(element => {
-    element.addEventListener('click', ChooseCard(element));
+    element.addEventListener('click', () => ChooseCard(element));
 });
