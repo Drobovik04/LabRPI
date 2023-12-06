@@ -67,7 +67,7 @@ body
     border-width: 3px;
     border-color: black;
     border-style: solid;
-    height: 90%;
+    height: 100%;
     flex: 1;
     display: flex;
     padding: 5px;
@@ -79,7 +79,7 @@ body
     border-width: 3px;
     border-color: black;
     border-style: solid;
-    height: 90%;
+    height: 100%;
     flex: 1;
     display: flex;
     padding: 5px;
@@ -91,7 +91,7 @@ body
     border-width: 3px;
     border-color: black;
     border-style: solid;
-    height: 90%;
+    height: 100%;
     flex: 1;
     display: flex;
     padding: 5px;
@@ -103,7 +103,7 @@ body
     border-width: 3px;
     border-color: black;
     border-style: solid;
-    height: 90%;
+    height: 100%;
     flex: 1;
     display: flex;
     padding: 5px;
@@ -169,13 +169,18 @@ body
     font-size: 18px;
     padding: 0px;
 }
+.listsettings li
+{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px; 
+}
 
 .status
 {
     height: 5%;
 }
-
-
 
 .button.start {
     width: 100%;
@@ -241,7 +246,6 @@ body
 .blocker
 {
     visibility: hidden;
-    pointer-events: none;
     position: absolute;
     display: flex;
     flex-direction: column;
@@ -256,4 +260,39 @@ body
     z-index: 2;
     color: coral;
     font-size: 150px;
+}
+
+.time
+{
+    font-size: 24px;
+}
+
+input
+{
+    width: 15%;
+    text-align: right;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.counter
+{
+    font-size: 44px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 10%;
+}
+
+.win
+{
+    color: cadetblue;
+}
+.lose
+{
+    color: #ff0000;
 }

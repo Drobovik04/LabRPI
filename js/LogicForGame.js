@@ -7,11 +7,13 @@ var round = false; // false - сейчас нет раунда, 1 - идет р�
 //
 var chosenCard = null;
 var blocker = document.querySelector('.blocker');
+var timediv = document.querySelector('.time');
 
 function ForbtnStart()
 {
     if (round==false)
     {
+        
         round=true;
         //затенение экрана и обратный отсчет по центру, затем старти отчет где-то в другом месте до конца выбора, можно сделать часы, которые трястись будут
         var time=5;
@@ -50,9 +52,16 @@ function ChooseCard(element)
 //Ссылки на настройки
 const countMatches = document.querySelector('.matches input');
 const animationTime = document.querySelector('.animforcardback input');
-const timForMath = document.querySelector('.timeformatch input');
+const timeForMatch = document.querySelector('.timeformatch input');
+const allrounds = document.querySelector('.allrounds');
+const wincounter = document.querySelector('.win');
+const losecounter = document.querySelector('.lose');
 
-
+//animationTime.addEventListener('input', () => {timeanim=document.getElementById('idanimforcardback').value;});
+timeForMatch.addEventListener('input', () => {timediv.innerHTML = timeForMatch.value});
+countMatches.addEventListener('input', () => {allrounds.innerHTML = countMatches.value});
+timediv.innerHTML = timeForMatch.value;
+allrounds.innerHTML = countMatches.value;
 const btnStart = document.querySelector('.button.start'); // кнопка "Старт"
 // cards уже содержит карты игрока
 

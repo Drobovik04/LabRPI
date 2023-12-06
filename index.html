@@ -12,8 +12,18 @@
     <title>Камень-ножницы-бумага</title>
 </head>
 <body>
-    <div class="blocker"></div>
     <div class="container">
+        <div class="counter">
+            <div class="allrounds">
+
+            </div>
+            <div class="win">
+
+            </div>
+            <div class="lose">
+                
+            </div>
+        </div>
         <div class="container-left-part">
             <div class="hand-bot">
                 <!--может добавить фон под картами-->
@@ -33,6 +43,7 @@
                     </div>
                 </div>
             </div>
+            <div class="time"></div>
             <div class="field">
                 
             </div>
@@ -68,9 +79,9 @@
             </button>
             <div class="settings">
                 <ul class="listsettings">
-                    <li class = "matches">Кол-во матчей <input type="number" value="3"></li>
-                    <li class = "animforcardback">Анимация вращения<input type="number" value="15"></li>
-                    <li class = "timeformatch">Время на матч <input type="number" value="3"></li>
+                    <li class = "matches">Кол-во матчей <input type="number" value="3" id="idmatches"></li>
+                    <!--<li class = "animforcardback">Анимация вращения<input type="number" value="15" id="idanimforcardback"></li>-->
+                    <li class = "timeformatch">Время на матч <input type="number" value="3" id="idtimeformatch"></li>
                     <li></li>
                     <li></li>
                     <li></li>
@@ -78,6 +89,7 @@
             </div>
         </div>
     </div>
+    <div class="blocker"></div>
     <script src="js/AnimationForBackground.js"></script>
     <script src="js/CardUp.js"></script>
     <script src="js/LogicForGame.js"></script>
