@@ -6,6 +6,7 @@ var round = false; // false - сейчас нет раунда, 1 - идет р�
 // Также в настройки добавить ползунок например для скорости анимки у карт (вращение фона, скорость подъема)
 //
 var chosenCard = null;
+var blocker = document.querySelector('.blocker');
 
 function ForbtnStart()
 {
@@ -13,7 +14,27 @@ function ForbtnStart()
     {
         round=true;
         //затенение экрана и обратный отсчет по центру, затем старти отчет где-то в другом месте до конца выбора, можно сделать часы, которые трястись будут
+        var time=5;
+        blocker.innerHTML=time;
+        blocker.style.visibility='visible';
+        time--;
+        var idinterval = setInterval(()=>
+        {
+            blocker.innerHTML=time;
+            if (time==0)
+            {
+                clearInterval(idinterval);
+                Game();
+            }
+            time--;
+        }, 1000);
     }
+}
+
+function Game()
+{
+    blocker.style.visibility='hidden';
+    
 }
 
 function ChooseCard(element)
