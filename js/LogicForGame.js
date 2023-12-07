@@ -36,9 +36,38 @@ function ForbtnStart()
 function Game()
 {
     blocker.style.visibility='hidden';
-    
-}
+    //заблочить потом настройки надо и доступ к ним и сброс игры по нажатию кнопки старт/сброс
+    var matchestoplay = countMatches.value;
+    // win lose = 0
+    wincounter.innerHTML=0;
+    losecounter.innerHTML=0;
+    if (matchestoplay<=0)
+    {
+        alert('Кол-во матчей должно быть больше 0');
+    }
+    //сам раунд
+    var idinterval = setInterval(() => {
 
+        DeselectCard();
+
+        matchestoplay--;
+        if (matchestoplay<=0)
+        {
+            clearInterval(idinterval);
+            Finish();
+        }
+    }, timeForMatch*1000);
+}
+function Finish()
+{
+
+}
+function DeselectCard()
+{
+    if (chosenCard==null) return;
+    chosenCard.style.borderColor='black';
+    chosenCard = null;
+}
 function ChooseCard(element)
 {
     if (chosenCard!=null)
