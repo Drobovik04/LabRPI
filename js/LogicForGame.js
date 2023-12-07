@@ -9,6 +9,8 @@ var chosenCard = null;
 var blocker = document.querySelector('.blocker');
 var timediv = document.querySelector('.time');
 
+const cardtoindex = new Map([["card-rock", 0],["card-scissors", 1],["card-paper", 2]]);
+
 function ForbtnStart()
 {
     if (round==false)
@@ -25,41 +27,96 @@ function ForbtnStart()
             blocker.innerHTML=time;
             if (time==0)
             {
-                clearInterval(idinterval);
                 Game();
+                clearInterval(idinterval);
             }
             time--;
         }, 1000);
     }
 }
-
+var winc = 0, losec = 0;
 function Game()
 {
     blocker.style.visibility='hidden';
     //заблочить потом настройки надо и доступ к ним и сброс игры по нажатию кнопки старт/сброс
     var matchestoplay = countMatches.value;
     // win lose = 0
-    wincounter.innerHTML=0;
-    losecounter.innerHTML=0;
+    wincounter.innerHTML=winc;
+    losecounter.innerHTML=losec;
     if (matchestoplay<=0)
     {
         alert('Кол-во матчей должно быть больше 0');
     }
+    var timeformatch = timeForMatch.value;
     //сам раунд
     var idinterval = setInterval(() => {
-
+        var botcard = cards[Math.floor(Math.random()* 3)];
+        var compareres = CompareCards(chosenCard, botcard);
+        if (compareres == 1)
+        {
+            winc++;
+            wincounter.innerHTML=winc;
+        }
+        else if (compareres == -1)
+        {
+            losec++;
+            losecounter.innerHTML=losec;
+        }
+        else
+        {
+            matchestoplay++;
+        }
         DeselectCard();
-
         matchestoplay--;
         if (matchestoplay<=0)
         {
             clearInterval(idinterval);
             Finish();
         }
-    }, timeForMatch*1000);
+    }, timeForMatch.value*1000);
+    var fortimer = setInterval(() =>
+    {        
+        timeformatch--;
+        timediv.innerHTML = timeformatch;
+        if (timeformatch<=0 && matchestoplay>=1)
+        {
+            timeformatch=timeForMatch.value;
+            timediv.innerHTML = timeformatch;
+        }
+        else
+        {
+            if(timeformatch<=0 && matchestoplay<=0) 
+            {
+                clearInterval(fortimer);
+            }
+        }
+    }, 1000);
 }
+// надо сделать анимацию проигрыша, выигрыша, движения и переворота карт игроков например за секунду и стопать таймер для функции в этот момент, ну хз как js даст мне это сделать
 function Finish()
 {
+    if (winc > losec)
+    {
+        console.log("Победа");
+    }
+    else
+    {
+        console.log("Проигрыш");
+    }
+}
+function CompareCards(card1, card2)
+{
+    // 0 камень, 1 ножницы, 2 бумага
+    if (card1==null)
+    {
+        return -1;
+    }
+    var matrix = [
+        [0, 1, -1], // камень
+        [-1, 0, 1], // ножницы
+        [1, -1, 0]  // бумага
+    ];
+    return matrix[cardtoindex.get(card1.className)][cardtoindex.get(card2.className)];
 
 }
 function DeselectCard()
