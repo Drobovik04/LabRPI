@@ -13,16 +13,16 @@ const cardtoindex = new Map([["card-rock", 0],["card-scissors", 1],["card-paper"
 
 function ForbtnStart()
 {
+    var idinterval;
     if (round==false)
     {
-        
         round=true;
         //затенение экрана и обратный отсчет по центру, затем старти отчет где-то в другом месте до конца выбора, можно сделать часы, которые трястись будут
         var time=5;
         blocker.innerHTML=time;
         blocker.style.visibility='visible';
         time--;
-        var idinterval = setInterval(()=>
+        idinterval = setInterval(()=>
         {
             blocker.innerHTML=time;
             if (time==0)
@@ -33,14 +33,22 @@ function ForbtnStart()
             time--;
         }, 1000);
     }
+    else
+    {
+        round = false;
+        clearInterval(idinterval);
+        clearInterval(fortimer);
+        clearInterval(idintervalround);
+    }
 }
+var fortimer = 0, idinterval = 0;
 var winc = 0, losec = 0;
 function Game()
 {
     blocker.style.visibility='hidden';
     //заблочить потом настройки надо и доступ к ним и сброс игры по нажатию кнопки старт/сброс
     var matchestoplay = countMatches.value;
-    // win lose = 0
+    winc = losec = 0
     wincounter.innerHTML=winc;
     losecounter.innerHTML=losec;
     if (matchestoplay<=0)
@@ -49,7 +57,7 @@ function Game()
     }
     var timeformatch = timeForMatch.value;
     //сам раунд
-    var idinterval = setInterval(() => {
+    idintervalround = setInterval(() => {
         var botcard = cards[Math.floor(Math.random()* 3)];
         var compareres = CompareCards(chosenCard, botcard);
         if (compareres == 1)
@@ -70,11 +78,11 @@ function Game()
         matchestoplay--;
         if (matchestoplay<=0)
         {
-            clearInterval(idinterval);
+            clearInterval(idintervalround);
             Finish();
         }
     }, timeForMatch.value*1000);
-    var fortimer = setInterval(() =>
+    fortimer = setInterval(() =>
     {        
         timeformatch--;
         timediv.innerHTML = timeformatch;
@@ -95,6 +103,7 @@ function Game()
 // надо сделать анимацию проигрыша, выигрыша, движения и переворота карт игроков например за секунду и стопать таймер для функции в этот момент, ну хз как js даст мне это сделать
 function Finish()
 {
+    round = false;
     if (winc > losec)
     {
         console.log("Победа");
