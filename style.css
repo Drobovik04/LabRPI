@@ -57,8 +57,13 @@ body
     border-color: black;
     border-style: solid;
     padding: 3px;
-    width: 50%;
+    width: 60%;
     height: 30%;
+    display: flex;
+    justify-content: center;
+    padding-left: 4%;
+    padding-right: 4%;
+    gap: 5px;
 }
 .card-rock
 {
@@ -295,4 +300,44 @@ input::-webkit-inner-spin-button {
 .lose
 {
     color: #ff0000;
+}
+
+.placeforbotcard, .placeforplayercard
+{
+    flex: 1;
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+.spaceforcards
+{
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    font-size: 44px;
+}
+.historyofgame
+{
+    font-size: 15px;
+    border-width: 1px;
+    border-style: solid;
+    border-collapse: collapse;
+    width: 100%;
+}
+.record
+{
+    text-align: center;
+}
+.historyofgame > tbody > tr > td, .historyofgame > tbody > tr > th
+{
+    border-width: 1px;
+    border-style: solid;
+}
+.deletehistory
+{
+    width: 100%;
+    text-align: center;
 }

@@ -6,11 +6,20 @@ var round = false; // false - сейчас нет раунда, 1 - идет р�
 // Также в настройки добавить ползунок например для скорости анимки у карт (вращение фона, скорость подъема)
 //
 var chosenCard = null;
+var botCard = null;
 var blocker = document.querySelector('.blocker');
 var timediv = document.querySelector('.time');
+var historyofgame = document.querySelector('.historyofgame');
 
 const cardtoindex = new Map([["card-rock", 0],["card-scissors", 1],["card-paper", 2]]);
 
+window.onload = LoadFromLocalStorage();
+
+function LoadFromLocalStorage()
+{
+    var valueFromStorage = localStorage.getItem('value');
+    if(valueFromStorage!=null)historyofgame.querySelector('.historyofgame > tbody').innerHTML=valueFromStorage;
+}
 function ForbtnStart()
 {
     var idinterval;
@@ -43,6 +52,7 @@ function ForbtnStart()
 }
 var fortimer = 0, idinterval = 0;
 var winc = 0, losec = 0;
+var placeForCompare = document.querySelector('.spaceforcards');
 function Game()
 {
     blocker.style.visibility='hidden';
@@ -54,31 +64,37 @@ function Game()
     if (matchestoplay<=0)
     {
         alert('Кол-во матчей должно быть больше 0');
+        return;
     }
     var timeformatch = timeForMatch.value;
     //сам раунд
     idintervalround = setInterval(() => {
-        var botcard = cards[Math.floor(Math.random()* 3)];
-        var compareres = CompareCards(chosenCard, botcard);
+        botCard = cards[Math.floor(Math.random()* 3)];
+        var compareres = CompareCards(chosenCard, botCard);
+        MoveCards();
         if (compareres == 1)
         {
             winc++;
             wincounter.innerHTML=winc;
+            placeForCompare.innerHTML="<";
         }
         else if (compareres == -1)
         {
             losec++;
             losecounter.innerHTML=losec;
+            placeForCompare.innerHTML=">";
         }
         else
         {
-            matchestoplay++;
+            placeForCompare.innerHTML="=";
         }
+        setTimeout(RemoveCards, 400);
         DeselectCard();
-        matchestoplay--;
-        if (matchestoplay<=0)
+        if (matchestoplay==winc||matchestoplay==losec)
         {
             clearInterval(idintervalround);
+            clearInterval(fortimer);
+            timediv.innerHTML = timeForMatch.value;
             Finish();
         }
     }, timeForMatch.value*1000);
@@ -86,32 +102,47 @@ function Game()
     {        
         timeformatch--;
         timediv.innerHTML = timeformatch;
-        if (timeformatch<=0 && matchestoplay>=1)
+        if (timeformatch<=0)
         {
             timeformatch=timeForMatch.value;
             timediv.innerHTML = timeformatch;
         }
-        else
-        {
-            if(timeformatch<=0 && matchestoplay<=0) 
-            {
-                clearInterval(fortimer);
-            }
-        }
+        // else
+        // {
+        //     if (matchestoplay==winc||matchestoplay==losec)
+        //     {
+        //         clearInterval(fortimer);
+        //         timediv.innerHTML = timeForMatch.value;
+        //     }
+        // }
     }, 1000);
 }
 // надо сделать анимацию проигрыша, выигрыша, движения и переворота карт игроков например за секунду и стопать таймер для функции в этот момент, ну хз как js даст мне это сделать
 function Finish()
 {
     round = false;
+    blocker.style.visibility = 'visible';
+    var prevcolor = blocker.style.color;
     if (winc > losec)
     {
         console.log("Победа");
+        blocker.style.color = 'green';
+        blocker.innerHTML = 'Победа';
     }
     else
     {
         console.log("Проигрыш");
+        blocker.style.color = 'red';
+        blocker.innerHTML = 'Проигрыш';
     }
+    var functionForFinish = function()
+    {
+        blocker.style.visibility = 'hidden';
+        blocker.removeEventListener('click',functionForFinish);
+        blocker.style.color=prevcolor;
+    }
+    MakeRecordForHistory();
+    blocker.addEventListener('click',functionForFinish);
 }
 function CompareCards(card1, card2)
 {
@@ -143,6 +174,59 @@ function ChooseCard(element)
     chosenCard = element;
     chosenCard.style.borderColor='red';
 }
+function MoveCards()
+{
+    var targetForPlayer = document.querySelector('.placeforplayercard');
+    var targetForBot = document.querySelector('.placeforbotcard');
+    if (chosenCard!=null)
+    {
+        var clonePlayerCard = chosenCard.cloneNode(true);
+        clonePlayerCard.style.borderColor='black'
+        clonePlayerCard.style.transform='';
+        chosenCard.visibility = false;
+        targetForPlayer.appendChild(clonePlayerCard);
+    }
+    var cloneBotCard = botCard.cloneNode(true);
+    cloneBotCard.style.borderColor='black'
+    cloneBotCard.style.transform='';
+    targetForBot.appendChild(cloneBotCard);
+}
+function RemoveCards()
+{
+    var targetForPlayer = document.querySelector('.placeforplayercard');
+    var targetForBot = document.querySelector('.placeforbotcard');
+    targetForBot.removeChild(targetForBot.firstChild);
+    if (targetForPlayer.childElementCount!=0)targetForPlayer.removeChild(targetForPlayer.firstChild);
+    placeForCompare.innerHTML="";
+}
+function MakeRecordForHistory()
+{
+    var template = document.createElement('tr');
+    template.className='record';
+    var res = winc>losec;
+    var rec = `<td class="wins">${winc}</td><td class="loses">${losec}</td><td class="res">${res==true?'Игрок':'Бот'}</td>`;
+    template.innerHTML = rec;
+    historyofgame.querySelector('.historyofgame > tbody').appendChild(template);
+    SaveToLocalStorageBad();
+}
+function SaveToLocalStorageBad()
+{
+    var toStorage = '';
+    var elementsToStorage = historyofgame.querySelectorAll('.historyofgame > tbody > tr');
+    elementsToStorage.forEach(element => {
+        toStorage+=element.outerHTML;
+    });
+    localStorage.setItem('value', toStorage);
+}
+function ClearHistoryAndStorage()
+{
+    localStorage.clear();
+    var forDelete = historyofgame.querySelectorAll('.historyofgame > tbody > tr');
+    for(i = 1; i < forDelete.length; i++)
+    {
+        historyofgame.querySelector('.historyofgame > tbody').removeChild(forDelete[i]);
+    }
+}
 
 //Ссылки на настройки
 const countMatches = document.querySelector('.matches input');
@@ -151,7 +235,7 @@ const timeForMatch = document.querySelector('.timeformatch input');
 const allrounds = document.querySelector('.allrounds');
 const wincounter = document.querySelector('.win');
 const losecounter = document.querySelector('.lose');
-
+const btndeletehistory = document.querySelector('.deletehistory');
 //animationTime.addEventListener('input', () => {timeanim=document.getElementById('idanimforcardback').value;});
 timeForMatch.addEventListener('input', () => {timediv.innerHTML = timeForMatch.value});
 countMatches.addEventListener('input', () => {allrounds.innerHTML = countMatches.value});
@@ -166,3 +250,4 @@ btnStart.addEventListener('click', ForbtnStart);
 cards.forEach(element => {
     element.addEventListener('click', () => ChooseCard(element));
 });
+btndeletehistory.addEventListener('click', ClearHistoryAndStorage);
