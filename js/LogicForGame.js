@@ -67,46 +67,82 @@ function Game()
         return;
     }
     var timeformatch = timeForMatch.value;
-    //сам раунд
-    idintervalround = setInterval(() => {
-        botCard = cards[Math.floor(Math.random()* 3)];
-        var compareres = CompareCards(chosenCard, botCard);
-        MoveCards();
-        if (compareres == 1)
-        {
-            winc++;
-            wincounter.innerHTML=winc;
-            placeForCompare.innerHTML="<";
-        }
-        else if (compareres == -1)
-        {
-            losec++;
-            losecounter.innerHTML=losec;
-            placeForCompare.innerHTML=">";
-        }
-        else
-        {
-            placeForCompare.innerHTML="=";
-        }
-        setTimeout(RemoveCards, 400);
-        DeselectCard();
-        if (matchestoplay==winc||matchestoplay==losec)
-        {
-            clearInterval(idintervalround);
-            clearInterval(fortimer);
-            timediv.innerHTML = timeForMatch.value;
-            Finish();
-        }
-    }, timeForMatch.value*1000);
-    fortimer = setInterval(() =>
+    // //сам раунд
+    // idintervalround = setInterval(() => {
+    //     botCard = cards[Math.floor(Math.random()* 3)];
+    //     var compareres = CompareCards(chosenCard, botCard);
+    //     MoveCards();
+    //     if (compareres == 1)
+    //     {
+    //         winc++;
+    //         wincounter.innerHTML=winc;
+    //         placeForCompare.innerHTML="<";
+    //     }
+    //     else if (compareres == -1)
+    //     {
+    //         losec++;
+    //         losecounter.innerHTML=losec;
+    //         placeForCompare.innerHTML=">";
+    //     }
+    //     else
+    //     {
+    //         placeForCompare.innerHTML="=";
+    //     }
+    //     setTimeout(RemoveCards, 400);
+    //     DeselectCard();
+    //     if (matchestoplay==winc||matchestoplay==losec)
+    //     {
+    //         clearInterval(idintervalround);
+    //         clearInterval(fortimer);
+    //         timediv.innerHTML = timeForMatch.value;
+    //         Finish();
+    //     }
+    // }, timeForMatch.value*1000);
+    var locked = false;
+    fortimer = setInterval(async() =>
     {        
-        timeformatch--;
-        timediv.innerHTML = timeformatch;
-        if (timeformatch<=0)
+        if (locked==false)
         {
-            timeformatch=timeForMatch.value;
+            locked=true;
+            timeformatch--;
             timediv.innerHTML = timeformatch;
+            if (timeformatch<=0)
+            {
+                botCard = cards[Math.floor(Math.random()* 3)];
+                var compareres = CompareCards(chosenCard, botCard);
+                MoveCards();
+                if (compareres == 1)
+                {
+                    winc++;
+                    wincounter.innerHTML=winc;
+                    placeForCompare.innerHTML="<";
+                }
+                else if (compareres == -1)
+                {
+                    losec++;
+                    losecounter.innerHTML=losec;
+                    placeForCompare.innerHTML=">";
+                }
+                else
+                {
+                    placeForCompare.innerHTML="=";
+                }
+                DeselectCard();
+                await sleep(1000);
+                RemoveCards();
+                if (matchestoplay==winc||matchestoplay==losec)
+                {
+                    //clearInterval(idintervalround);
+                    clearInterval(fortimer);
+                    timediv.innerHTML = timeForMatch.value;
+                    Finish();
+                }
+                timeformatch=timeForMatch.value;
+                timediv.innerHTML = timeformatch;
+            }
+            locked=false;
         }
+
         // else
         // {
         //     if (matchestoplay==winc||matchestoplay==losec)
@@ -227,6 +263,10 @@ function ClearHistoryAndStorage()
         historyofgame.querySelector('.historyofgame > tbody').removeChild(forDelete[i]);
     }
 }
+
+function sleep(ms) {
+    return new Promise(res => setTimeout(res, ms));
+  }
 
 //Ссылки на настройки
 const countMatches = document.querySelector('.matches input');
