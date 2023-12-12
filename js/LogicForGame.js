@@ -8,6 +8,7 @@ var round = false; // false - сейчас нет раунда, 1 - идет р�
 var chosenCard = null;
 var botCard = null;
 var blocker = document.querySelector('.blocker');
+var blockerformenu = document.querySelector('.blockerformenu');
 var timediv = document.querySelector('.time');
 var historyofgame = document.querySelector('.historyofgame');
 
@@ -45,9 +46,10 @@ function ForbtnStart()
     else
     {
         round = false;
+        blockerformenu.style.visibility='hidden';
         clearInterval(idinterval);
         clearInterval(fortimer);
-        clearInterval(idintervalround);
+        //clearInterval(idintervalround);
     }
 }
 var fortimer = 0, idinterval = 0;
@@ -56,6 +58,7 @@ var placeForCompare = document.querySelector('.spaceforcards');
 function Game()
 {
     blocker.style.visibility='hidden';
+    blockerformenu.style.visibility='visible';
     //заблочить потом настройки надо и доступ к ним и сброс игры по нажатию кнопки старт/сброс
     var matchestoplay = countMatches.value;
     winc = losec = 0
@@ -67,6 +70,7 @@ function Game()
         return;
     }
     var timeformatch = timeForMatch.value;
+    timediv.innerHTML = timeformatch;
     // //сам раунд
     // idintervalround = setInterval(() => {
     //     botCard = cards[Math.floor(Math.random()* 3)];
@@ -176,6 +180,7 @@ function Finish()
         blocker.style.visibility = 'hidden';
         blocker.removeEventListener('click',functionForFinish);
         blocker.style.color=prevcolor;
+        blockerformenu.style.visibility = 'hidden';
     }
     MakeRecordForHistory();
     blocker.addEventListener('click',functionForFinish);
