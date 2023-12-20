@@ -11,6 +11,9 @@ var blocker = document.querySelector('.blocker');
 var blockerformenu = document.querySelector('.blockerformenu');
 var timediv = document.querySelector('.time');
 var historyofgame = document.querySelector('.historyofgame');
+var idmatchesinput = document.getElementById('idmatches');
+var idtimeformatchinput = document.getElementById('idtimeformatch');
+var backfortime = document.querySelector('.backfortime');
 
 const cardtoindex = new Map([["card-rock", 0],["card-scissors", 1],["card-paper", 2]]);
 
@@ -24,11 +27,16 @@ function LoadFromLocalStorage()
 function ForbtnStart()
 {
     var idinterval;
+    if (idtimeformatchinput.value=='' || idmatchesinput.value=='' || idmatchesinput.validity.patternMismatch || idtimeformatchinput.validity.patternMismatch)
+    {
+        console.log('Неверный ввод');
+        return;
+    }
     if (round==false)
     {
         round=true;
         //затенение экрана и обратный отсчет по центру, затем старти отчет где-то в другом месте до конца выбора, можно сделать часы, которые трястись будут
-        var time=5;
+        var time=3;
         blocker.innerHTML=time;
         blocker.style.visibility='visible';
         time--;
@@ -103,6 +111,7 @@ function Game()
     //     }
     // }, timeForMatch.value*1000);
     var locked = false;
+    var rotationfortime = false;
     fortimer = setInterval(async() =>
     {        
         if (locked==false)
@@ -110,6 +119,8 @@ function Game()
             locked=true;
             timeformatch--;
             timediv.innerHTML = timeformatch;
+            backfortime.style.transform=`rotate(${rotationfortime?0:180}deg)`;
+            rotationfortime=!rotationfortime;
             if (timeformatch<=0)
             {
                 botCard = cards[Math.floor(Math.random()* 3)];

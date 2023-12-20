@@ -24,7 +24,14 @@
                 0
             </div>
         </div>
-        <div class="time"></div>
+        <div class="fortime">
+            <div class="backfortime">
+                ⌛
+            </div>
+            <div class="time">
+
+            </div>
+        </div>
         <div class="container-left-part">
             <div class="hand-bot">
                 <!--может добавить фон под картами-->
@@ -82,9 +89,9 @@
             </button>
             <div class="settings">
                 <ul class="listsettings">
-                    <li class = "matches">Кол-во матчей в раунде<input type="number" value="3" id="idmatches"></li>
+                    <li class = "matches">Кол-во матчей в раунде<input type="number" value="3" id="idmatches" pattern="^[1-9]{1}[0-9]+"></li>
                     <!--<li class = "animforcardback">Анимация вращения<input type="number" value="15" id="idanimforcardback"></li>-->
-                    <li class = "timeformatch">Время на матч<input type="number" value="3" id="idtimeformatch"></li>
+                    <li class = "timeformatch">Время на матч<input type="number" value="3" id="idtimeformatch" pattern="^[1-9]{1}[0-9]+"></li>
                     <li></li>
                     <li></li>
                     <li></li>
