@@ -17,7 +17,18 @@ var backfortime = document.querySelector('.backfortime');
 
 const cardtoindex = new Map([["card-rock", 0],["card-scissors", 1],["card-paper", 2]]);
 
-window.onload = LoadFromLocalStorage();
+window.addEventListener('load',LoadFromLocalStorage);
+window.addEventListener('load',() => 
+{
+    console.log('Игра "Камень-ножницы-бумага"\n \
+                 1. В игре можно настроить длительность одного матча в раунде, а также кол-во необходимых побед для выигрыша в матче\n \
+                 2. Кнопка "Старт/Стоп" начинает обратный отсчет до старта, также может остановить игру в любой момент, и начать ее сначала\n \
+                 3. Справа от песочных часов таймер на матч, по достижению нуля игрок и бот показывают свои карты, затем выбирается победитель, который получает + балл (зеленое число - счет побед игрока, красное - бота)\n \
+                 4. Если игрок ничего не выбрал, то автоматически проигрывает\n \
+                 5. Карта бота - слева, карта игрока - справа\n \
+                 6. После набора необходимого количества побед ботом или игроком, появляется надпись о проигрыше или победе игрока\n \
+                 7. Игры, которые были доиграны до конца, добавляются в историю (localStorage), историю можно очистить с помощью соответствующей кнопки');
+});
 
 function LoadFromLocalStorage()
 {
@@ -307,3 +318,4 @@ cards.forEach(element => {
     element.addEventListener('click', () => ChooseCard(element));
 });
 btndeletehistory.addEventListener('click', ClearHistoryAndStorage);
+
