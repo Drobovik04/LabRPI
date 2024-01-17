@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- link animate.css   -->
+    <link rel="stylesheet" href="css/animate.min.css">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,62 +14,100 @@
     <title>Камень-ножницы-бумага</title>
 </head>
 <body>
+    <div class="burger col-1 d-block d-lg-none">
+                <span>
+    
+                </span>
+            </div>
+    <div class="timer">
+        <div class="fortime">
+            <div class="backfortime">
+                ⌛
+            </div>
+            <div class="time">
+
+            </div>
+        </div>
+    </div>
     <div class="container">
-        <div class="counter">
+        <div class="game-wrapper">
+            <div class="counter">
+            <div class="lose">
+                0
+            </div>
             <div class="allrounds">
 
             </div>
             <div class="win">
-
-            </div>
-            <div class="lose">
-                
+                0
             </div>
         </div>
         <div class="container-left-part">
             <div class="hand-bot">
                 <!--может добавить фон под картами-->
-                <div class="card-undef">
+                <div class="card card-undef">
                     <div class="undef">
                         ❓
                     </div>
                 </div>
-                <div class="card-undef">
+                <div class="card card-undef">
                     <div class="undef">
                         ❓
                     </div>
                 </div>
-                <div class="card-undef">
+
+                <div class="card card-undef">
+                    <div class="undef">
+                        ❓
+                    </div>
+                </div>
+                <div class="card card-undef">
+                    <div class="undef">
+                        ❓
+                    </div>
+                </div>
+                <div class="card card-undef">
                     <div class="undef">
                         ❓
                     </div>
                 </div>
             </div>
-            <div class="time"></div>
             <div class="field">
-                
+                <div class="placeforbotcard"></div>
+                <div class="spaceforcards"></div>
+                <div class="placeforplayercard"></div>
             </div>
             <div class="hand">
                 <!--может добавить фон под картами-->
-                <div class="card-rock">
+                <div class="card card-rock">
                     <div class="rock">
                         ✊
                     </div>
                 </div>
-                <div class="card-paper">
+                <div class="card card-paper">
                     <div class="paper">
                         ✋
                     </div>
                 </div>
-                <div class="card-scissors">
+                <div class="card card-scissors">
                     <div class="scissors">
                         ✂️
                     </div>
                 </div>
-                
+                <div class="card card-undef">
+                    <div class="undef">
+                        ❓
+                    </div>
+                </div><div class="card card-undef">
+                    <div class="undef">
+                        ❓
+                    </div>
+                </div> 
             </div>
         </div>
         <div class="menu">
+            
+            <div class="blockerformenu"></div>
             <div class="menu-header">
                 Меню
             </div>
@@ -79,17 +119,29 @@
             </button>
             <div class="settings">
                 <ul class="listsettings">
-                    <li class = "matches">Кол-во матчей <input type="number" value="3" id="idmatches"></li>
+                    <li class = "matches">Кол-во матчей в раунде<input type="number" value="3" id="idmatches" pattern="^[1-9]{1}[0-9]+"></li>
                     <!--<li class = "animforcardback">Анимация вращения<input type="number" value="15" id="idanimforcardback"></li>-->
-                    <li class = "timeformatch">Время на матч <input type="number" value="3" id="idtimeformatch"></li>
+                    <li class = "timeformatch">Время на матч<input type="number" value="3" id="idtimeformatch" pattern="^[1-9]{1}[0-9]+"></li>
                     <li></li>
                     <li></li>
                     <li></li>
                 </ul>
             </div>
+            <button class="deletehistory">Очистить историю</button>
+            <table class="historyofgame">
+                <tbody>
+                    <tr>
+                        <th>Побед</th>
+                        <th>Поражений</th>
+                        <th>Победитель</th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
         </div>
     </div>
     <div class="blocker"></div>
+    <script src="js/main.js"></script>
     <script src="js/AnimationForBackground.js"></script>
     <script src="js/CardUp.js"></script>
     <script src="js/LogicForGame.js"></script>
