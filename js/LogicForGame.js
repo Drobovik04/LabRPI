@@ -15,6 +15,30 @@ var idmatchesinput = document.getElementById('idmatches');
 var idtimeformatchinput = document.getElementById('idtimeformatch');
 var backfortime = document.querySelector('.backfortime');
 
+//Ссылки на настройки
+const countMatches = document.querySelector('.matches input');
+const animationTime = document.querySelector('.animforcardback input');
+const timeForMatch = document.querySelector('.timeformatch input');
+const allrounds = document.querySelector('.allrounds');
+const wincounter = document.querySelector('.win');
+const losecounter = document.querySelector('.lose');
+const btndeletehistory = document.querySelector('.deletehistory');
+//animationTime.addEventListener('input', () => {timeanim=document.getElementById('idanimforcardback').value;});
+timeForMatch.addEventListener('input', () => {timediv.innerHTML = timeForMatch.value});
+countMatches.addEventListener('input', () => {allrounds.innerHTML = countMatches.value});
+timediv.innerHTML = timeForMatch.value;
+allrounds.innerHTML = countMatches.value;
+const btnStart = document.querySelector('.button.start'); // кнопка "Старт"
+// cards уже содержит карты игрока
+
+
+//События
+btnStart.addEventListener('click', ForbtnStart);
+cards.forEach(element => {
+    element.addEventListener('click', () => ChooseCard(element));
+});
+btndeletehistory.addEventListener('click', ClearHistoryAndStorage);
+
 const cardtoindex = new Map([["card-rock", 0],["card-scissors", 1],["card-paper", 2]]);
 const cards = document.querySelectorAll('.card-rock, .card-paper, .card-scissors');
 window.addEventListener('load',LoadFromLocalStorage);
@@ -294,28 +318,3 @@ function ClearHistoryAndStorage()
 function sleep(ms) {
     return new Promise(res => setTimeout(res, ms));
   }
-
-//Ссылки на настройки
-const countMatches = document.querySelector('.matches input');
-const animationTime = document.querySelector('.animforcardback input');
-const timeForMatch = document.querySelector('.timeformatch input');
-const allrounds = document.querySelector('.allrounds');
-const wincounter = document.querySelector('.win');
-const losecounter = document.querySelector('.lose');
-const btndeletehistory = document.querySelector('.deletehistory');
-//animationTime.addEventListener('input', () => {timeanim=document.getElementById('idanimforcardback').value;});
-timeForMatch.addEventListener('input', () => {timediv.innerHTML = timeForMatch.value});
-countMatches.addEventListener('input', () => {allrounds.innerHTML = countMatches.value});
-timediv.innerHTML = timeForMatch.value;
-allrounds.innerHTML = countMatches.value;
-const btnStart = document.querySelector('.button.start'); // кнопка "Старт"
-// cards уже содержит карты игрока
-
-
-//События
-btnStart.addEventListener('click', ForbtnStart);
-cards.forEach(element => {
-    element.addEventListener('click', () => ChooseCard(element));
-});
-btndeletehistory.addEventListener('click', ClearHistoryAndStorage);
-
