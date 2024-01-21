@@ -94,20 +94,18 @@
                         ✂️
                     </div>
                 </div>
-                <div class="card card-undef">
-                    <div class="undef">
-                        ❓
+                <div class="card card-lizard">
+                    <div class="lizard">
+                        🦎
                     </div>
-                </div><div class="card card-undef">
-                    <div class="undef">
-                        ❓
+                </div><div class="card card-fox">
+                    <div class="fox">
+                        🦊
                     </div>
                 </div> 
             </div>
         </div>
         <div class="menu">
-            
-            <div class="blockerformenu"></div>
             <div class="menu-header">
                 Меню
             </div>
@@ -118,32 +116,73 @@
                 Старт/Стоп
             </button>
             <div class="settings">
+                <div class="blockerformenu"></div>
                 <ul class="listsettings">
                     <li class = "matches">Кол-во матчей в раунде<input type="number" value="3" id="idmatches" pattern="^[1-9]{1}[0-9]+"></li>
                     <!--<li class = "animforcardback">Анимация вращения<input type="number" value="15" id="idanimforcardback"></li>-->
                     <li class = "timeformatch">Время на матч<input type="number" value="3" id="idtimeformatch" pattern="^[1-9]{1}[0-9]+"></li>
-                    <li></li>
+                    <li>Переход к следующему раунду сразу после выбора карты<input type="checkbox" class="skiptimer" onclick="CheckSkipTimer(this)"></li>
                     <li></li>
                     <li></li>
                 </ul>
             </div>
-            <button class="deletehistory">Очистить историю</button>
-            <table class="historyofgame">
-                <tbody>
-                    <tr>
-                        <th>Побед</th>
-                        <th>Поражений</th>
-                        <th>Победитель</th>
-                    </tr>
-                </tbody>
-            </table>
+            <button class="button deletehistory">Очистить статистику</button>
         </div>
+        </div>
+    </div>
+    <div class="headforstats">
+        Статистика
+    </div>
+    <div class="stats">
+        <table class="container-table">
+            <caption>История игр</caption>
+            <thead>
+              <tr>
+                <th><h1>Победитель</h1></th>
+                <th><h1>Побед</h1></th>
+                <th><h1>Поражений</h1></th>
+              </tr>
+            </thead>
+            <tbody id="historyofgames">
+
+            </tbody>
+        </table>
+        <table class="container-table">
+            <caption>Кол-во сыгранных карт (бот и игрок)</caption>
+            <thead>
+              <tr>
+                <th><h1>✊</h1></th>
+                <th><h1>✋</h1></th>
+                <th><h1>✂️</h1></th>
+                <th><h1>🦎</h1></th>
+                <th><h1>🦊</h1></th>
+              </tr>
+            </thead>
+            <tbody id="counterforcards">
+                
+            </tbody>
+        </table>
+        <div class="chart">
+            Процент побед
+            <svg viewBox="0 0 36 36" class="circular-chart orange">
+            <path class="circle-bg"
+                d="M18 2.0845
+                a 15.9155 15.9155 0 0 1 0 31.831
+                a 15.9155 15.9155 0 0 1 0 -31.831"
+            />
+            <path id="orange-chart" class="circle"
+                stroke-dasharray="0, 100"
+                d="M18 2.0845
+                a 15.9155 15.9155 0 0 1 0 31.831
+                a 15.9155 15.9155 0 0 1 0 -31.831"
+            />
+            <text x="18" y="20.35" class="percentage" id="orange-chart-percent">0%</text>
+            </svg>
         </div>
     </div>
     <div class="blocker"></div>
     <script src="js/main.js"></script>
     <script src="js/AnimationForBackground.js"></script>
-    <script src="js/CardUp.js"></script>
     <script src="js/LogicForGame.js"></script>
 </body>
 </html>

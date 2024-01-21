@@ -10,10 +10,14 @@ var botCard = null;
 var blocker = document.querySelector('.blocker');
 var blockerformenu = document.querySelector('.blockerformenu');
 var timediv = document.querySelector('.time');
-var historyofgame = document.querySelector('.historyofgame');
+var historyofgames = document.querySelector('#historyofgames');
+var counterforcards = document.querySelector('#counterforcards');
+var orange_chart = document.querySelector('#orange-chart');
+var orange_chart_percent = document.querySelector('#orange-chart-percent');
 var idmatchesinput = document.getElementById('idmatches');
 var idtimeformatchinput = document.getElementById('idtimeformatch');
 var backfortime = document.querySelector('.backfortime');
+var skiptimer = false;
 
 //Ссылки на настройки
 const countMatches = document.querySelector('.matches input');
@@ -22,7 +26,9 @@ const timeForMatch = document.querySelector('.timeformatch input');
 const allrounds = document.querySelector('.allrounds');
 const wincounter = document.querySelector('.win');
 const losecounter = document.querySelector('.lose');
-const btndeletehistory = document.querySelector('.deletehistory');
+const btndeletehistory = document.querySelector('.button.deletehistory');
+const cardtoindex = new Map([["card-rock", 0],["card-scissors", 1],["card-paper", 2],["card-lizard", 3],["card-fox", 4]]);
+const cards = document.querySelectorAll('.card-rock, .card-paper, .card-scissors, .card-lizard, .card-fox');
 //animationTime.addEventListener('input', () => {timeanim=document.getElementById('idanimforcardback').value;});
 timeForMatch.addEventListener('input', () => {timediv.innerHTML = timeForMatch.value});
 countMatches.addEventListener('input', () => {allrounds.innerHTML = countMatches.value});
@@ -39,8 +45,6 @@ cards.forEach(element => {
 });
 btndeletehistory.addEventListener('click', ClearHistoryAndStorage);
 
-const cardtoindex = new Map([["card-rock", 0],["card-scissors", 1],["card-paper", 2]]);
-const cards = document.querySelectorAll('.card-rock, .card-paper, .card-scissors');
 window.addEventListener('load',LoadFromLocalStorage);
 window.addEventListener('load',() => 
 {
@@ -56,9 +60,26 @@ window.addEventListener('load',() =>
 
 function LoadFromLocalStorage()
 {
-    var valueFromStorage = localStorage.getItem('value');
-    if(valueFromStorage!=null)historyofgame.querySelector('.historyofgame > tbody').innerHTML=valueFromStorage;
+    var t1 = localStorage.getItem('table1');
+    var t2 = localStorage.getItem('table2');
+    if(t1!=null)historyofgames.innerHTML=t1;
+    if(t2!=null)counterforcards.innerHTML=t2;
+    orange_chart.setAttribute('stroke-dasharray','50,100');
+    orange_chart_percent.innerHTML='50%';
 }
+
+function CheckSkipTimer(checkbox)
+{
+    if (checkbox.checked)
+    {
+        skiptimer = true;
+    }
+    else
+    {
+        skiptimer = false;
+    }
+}
+
 function ForbtnStart()
 {
     var idinterval;
@@ -67,6 +88,7 @@ function ForbtnStart()
         console.log('Неверный ввод');
         return;
     }
+    DeselectCard();
     if (round==false)
     {
         round=true;
@@ -98,6 +120,9 @@ function ForbtnStart()
 var fortimer = 0, idinterval = 0;
 var winc = 0, losec = 0;
 var placeForCompare = document.querySelector('.spaceforcards');
+
+//Проблема с ранним скипом, если выбран чекбокс на 
+
 function Game()
 {
     blocker.style.visibility='hidden';
@@ -114,94 +139,63 @@ function Game()
     }
     var timeformatch = timeForMatch.value;
     timediv.innerHTML = timeformatch;
-    // //сам раунд
-    // idintervalround = setInterval(() => {
-    //     botCard = cards[Math.floor(Math.random()* 3)];
-    //     var compareres = CompareCards(chosenCard, botCard);
-    //     MoveCards();
-    //     if (compareres == 1)
-    //     {
-    //         winc++;
-    //         wincounter.innerHTML=winc;
-    //         placeForCompare.innerHTML="<";
-    //     }
-    //     else if (compareres == -1)
-    //     {
-    //         losec++;
-    //         losecounter.innerHTML=losec;
-    //         placeForCompare.innerHTML=">";
-    //     }
-    //     else
-    //     {
-    //         placeForCompare.innerHTML="=";
-    //     }
-    //     setTimeout(RemoveCards, 400);
-    //     DeselectCard();
-    //     if (matchestoplay==winc||matchestoplay==losec)
-    //     {
-    //         clearInterval(idintervalround);
-    //         clearInterval(fortimer);
-    //         timediv.innerHTML = timeForMatch.value;
-    //         Finish();
-    //     }
-    // }, timeForMatch.value*1000);
     var locked = false;
     var rotationfortime = false;
+    var timepassed = 0;
     fortimer = setInterval(async() =>
     {        
         if (locked==false)
         {
             locked=true;
-            timeformatch--;
-            timediv.innerHTML = timeformatch;
-            backfortime.style.transform=`rotate(${rotationfortime?0:180}deg)`;
-            rotationfortime=!rotationfortime;
-            if (timeformatch<=0)
+            if (timepassed<1000 & !(skiptimer & chosenCard!=null))
             {
-                botCard = cards[Math.floor(Math.random()* 3)];
-                var compareres = CompareCards(chosenCard, botCard);
-                MoveCards();
-                if (compareres == 1)
-                {
-                    winc++;
-                    wincounter.innerHTML=winc;
-                    placeForCompare.innerHTML="<";
-                }
-                else if (compareres == -1)
-                {
-                    losec++;
-                    losecounter.innerHTML=losec;
-                    placeForCompare.innerHTML=">";
-                }
-                else
-                {
-                    placeForCompare.innerHTML="=";
-                }
-                DeselectCard();
-                await sleep(1000);
-                RemoveCards();
-                if (matchestoplay==winc||matchestoplay==losec)
-                {
-                    //clearInterval(idintervalround);
-                    clearInterval(fortimer);
-                    timediv.innerHTML = timeForMatch.value;
-                    Finish();
-                }
-                timeformatch=timeForMatch.value;
+                timepassed+=100;
+            }
+            else
+            {
+                timepassed=0;
+                timeformatch--;
                 timediv.innerHTML = timeformatch;
+                backfortime.style.transform=`rotate(${rotationfortime?0:180}deg)`;
+                rotationfortime=!rotationfortime;
+                if ((skiptimer & chosenCard!=null) || timeformatch<=0)
+                {
+                    botCard = cards[Math.floor(Math.random()* 5)];
+                    var compareres = CompareCards(chosenCard, botCard);
+                    MoveCards();
+                    if (compareres == 1)
+                    {
+                        winc++;
+                        wincounter.innerHTML=winc;
+                        placeForCompare.innerHTML="<";
+                    }
+                    else if (compareres == -1)
+                    {
+                        losec++;
+                        losecounter.innerHTML=losec;
+                        placeForCompare.innerHTML=">";
+                    }
+                    else
+                    {
+                        placeForCompare.innerHTML="=";
+                    }
+                    DeselectCard();
+                    await sleep(1000);
+                    RemoveCards();
+                    if (matchestoplay==winc||matchestoplay==losec)
+                    {
+                        //clearInterval(idintervalround);
+                        clearInterval(fortimer);
+                        timediv.innerHTML = timeForMatch.value;
+                        Finish();
+                    }
+                    timeformatch=timeForMatch.value;
+                    timediv.innerHTML = timeformatch;
+                }
             }
             locked=false;
         }
-
-        // else
-        // {
-        //     if (matchestoplay==winc||matchestoplay==losec)
-        //     {
-        //         clearInterval(fortimer);
-        //         timediv.innerHTML = timeForMatch.value;
-        //     }
-        // }
-    }, 1000);
+    }, 100);
 }
 // надо сделать анимацию проигрыша, выигрыша, движения и переворота карт игроков например за секунду и стопать таймер для функции в этот момент, ну хз как js даст мне это сделать
 function Finish()
@@ -233,15 +227,17 @@ function Finish()
 }
 function CompareCards(card1, card2)
 {
-    // 0 камень, 1 ножницы, 2 бумага
+    // 0 камень, 1 ножницы, 2 бумага, 3 ящерица, 4 лиса
     if (card1==null)
     {
         return -1;
     }
     var matrix = [
-        [0, 1, -1], // камень
-        [-1, 0, 1], // ножницы
-        [1, -1, 0]  // бумага
+        [0, 1, -1, 1, -1], // камень
+        [-1, 0, 1, 1, -1], // ножницы
+        [1, -1, 0, -1, 1], // бумага
+        [-1, -1, 1, 0, 1], // ящерица
+        [1, 1, -1, -1, 0]  // лиса
     ];
     return matrix[cardtoindex.get(card1.className.split(" ")[1])][cardtoindex.get(card2.className.split(" ")[1])];
 
@@ -288,6 +284,7 @@ function RemoveCards()
 }
 function MakeRecordForHistory()
 {
+    return;
     var template = document.createElement('tr');
     template.className='record';
     var res = winc>losec;

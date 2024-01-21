@@ -1,6 +1,6 @@
-const elements = document.querySelectorAll('.card-undef, .card-rock, .card-paper, .card-scissors');
+const elements = document.querySelectorAll('.card-undef, .card-rock, .card-paper, .card-scissors, .card-lizard, .card-fox');
 var percent = 0;
-var timeanim = 25; // в ms
+var timeanim = 30; // в ms
 var step = 1/timeanim;
 setInterval(() => {
     elements.forEach(element => {
