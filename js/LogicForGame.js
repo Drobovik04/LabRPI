@@ -19,6 +19,8 @@ var idtimeformatchinput = document.getElementById('idtimeformatch');
 var backfortime = document.querySelector('.backfortime');
 var skiptimer = false;
 
+var counterarray = [0,0,0,0,0]; // счетчик для карт
+
 //Ссылки на настройки
 const countMatches = document.querySelector('.matches input');
 const animationTime = document.querySelector('.animforcardback input');
@@ -63,7 +65,11 @@ function LoadFromLocalStorage()
     var t1 = localStorage.getItem('table1');
     var t2 = localStorage.getItem('table2');
     if(t1!=null)historyofgames.innerHTML=t1;
-    if(t2!=null)counterforcards.innerHTML=t2;
+    if(t2!=null)
+    {
+        counterarray = t2.split(',');
+        ChangeCounterForCards();
+    }
     orange_chart.setAttribute('stroke-dasharray','50,100');
     orange_chart_percent.innerHTML='50%';
 }
@@ -179,6 +185,9 @@ function Game()
                     {
                         placeForCompare.innerHTML="=";
                     }
+                    counterarray[cardtoindex.get(botCard.className.split(" ")[1])]++;
+                    counterarray[cardtoindex.get(chosenCard.className.split(" ")[1])]++;
+                    ChangeCounterForCards();
                     DeselectCard();
                     await sleep(1000);
                     RemoveCards();
@@ -282,34 +291,36 @@ function RemoveCards()
     if (targetForPlayer.childElementCount!=0)targetForPlayer.removeChild(targetForPlayer.firstChild);
     placeForCompare.innerHTML="";
 }
+function ChangeCounterForCards()
+{
+    counterforcards.innerHTML = `<tr><td>${counterarray[0]}</td><td>${counterarray[1]}</td><td>${counterarray[2]}</td><td>${counterarray[3]}</td><td>${counterarray[4]}</td></tr>`;
+}
 function MakeRecordForHistory()
 {
-    return;
+    /* table1 */
     var template = document.createElement('tr');
-    template.className='record';
     var res = winc>losec;
-    var rec = `<td class="wins">${winc}</td><td class="loses">${losec}</td><td class="res">${res==true?'Игрок':'Бот'}</td>`;
+    var rec = `<td class="res">${res==true?'Игрок':'Бот'}<td class="wins">${winc}</td><td class="loses">${losec}</td></td>`;
     template.innerHTML = rec;
-    historyofgame.querySelector('.historyofgame > tbody').appendChild(template);
+    historyofgames.appendChild(template);
+    /* table2 */
     SaveToLocalStorageBad();
 }
 function SaveToLocalStorageBad()
 {
     var toStorage = '';
-    var elementsToStorage = historyofgame.querySelectorAll('.historyofgame > tbody > tr');
+    var elementsToStorage = historyofgames.querySelectorAll('tr');
     elementsToStorage.forEach(element => {
         toStorage+=element.outerHTML;
     });
-    localStorage.setItem('value', toStorage);
+    localStorage.setItem('table1', toStorage);
+    localStorage.setItem('table2', counterarray);
 }
 function ClearHistoryAndStorage()
 {
     localStorage.clear();
-    var forDelete = historyofgame.querySelectorAll('.historyofgame > tbody > tr');
-    for(i = 1; i < forDelete.length; i++)
-    {
-        historyofgame.querySelector('.historyofgame > tbody').removeChild(forDelete[i]);
-    }
+    historyofgames.innerHTML='';
+    counterforcards.innerHTML='';
 }
 
 function sleep(ms) {
