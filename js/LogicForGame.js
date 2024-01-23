@@ -20,6 +20,7 @@ var backfortime = document.querySelector('.backfortime');
 var skiptimer = false;
 
 var counterarray = [0,0,0,0,0]; // счетчик для карт
+var winsandloses = [0,0]; // победы, проигрышы
 
 //Ссылки на настройки
 const countMatches = document.querySelector('.matches input');
@@ -64,14 +65,18 @@ function LoadFromLocalStorage()
 {
     var t1 = localStorage.getItem('table1');
     var t2 = localStorage.getItem('table2');
+    var winrate = localStorage.getItem('winrate');
     if(t1!=null)historyofgames.innerHTML=t1;
     if(t2!=null)
     {
-        counterarray = t2.split(',');
+        counterarray = t2.split(',').map(Number);
         ChangeCounterForCards();
     }
-    orange_chart.setAttribute('stroke-dasharray','50,100');
-    orange_chart_percent.innerHTML='50%';
+    if (winrate!=null)
+    {
+        winsandloses = winrate.split(',').map(Number);
+        ChangeWinRate();
+    }
 }
 
 function CheckSkipTimer(checkbox)
@@ -186,7 +191,7 @@ function Game()
                         placeForCompare.innerHTML="=";
                     }
                     counterarray[cardtoindex.get(botCard.className.split(" ")[1])]++;
-                    counterarray[cardtoindex.get(chosenCard.className.split(" ")[1])]++;
+                    if (chosenCard!=null)counterarray[cardtoindex.get(chosenCard.className.split(" ")[1])]++;
                     ChangeCounterForCards();
                     DeselectCard();
                     await sleep(1000);
@@ -217,12 +222,14 @@ function Finish()
         console.log("Победа");
         blocker.style.color = 'green';
         blocker.innerHTML = 'Победа';
+        winsandloses[0]++;
     }
     else
     {
         console.log("Проигрыш");
         blocker.style.color = 'red';
         blocker.innerHTML = 'Проигрыш';
+        winsandloses[1]++;
     }
     var functionForFinish = function()
     {
@@ -232,6 +239,7 @@ function Finish()
         blockerformenu.style.visibility = 'hidden';
     }
     MakeRecordForHistory();
+    ChangeWinRate();
     blocker.addEventListener('click',functionForFinish);
 }
 function CompareCards(card1, card2)
@@ -303,7 +311,6 @@ function MakeRecordForHistory()
     var rec = `<td class="res">${res==true?'Игрок':'Бот'}<td class="wins">${winc}</td><td class="loses">${losec}</td></td>`;
     template.innerHTML = rec;
     historyofgames.appendChild(template);
-    /* table2 */
     SaveToLocalStorageBad();
 }
 function SaveToLocalStorageBad()
@@ -315,12 +322,20 @@ function SaveToLocalStorageBad()
     });
     localStorage.setItem('table1', toStorage);
     localStorage.setItem('table2', counterarray);
+    localStorage.setItem('winrate', winsandloses);
 }
 function ClearHistoryAndStorage()
 {
     localStorage.clear();
     historyofgames.innerHTML='';
     counterforcards.innerHTML='';
+}
+function ChangeWinRate()
+{
+    var winrate = winsandloses[0]/(winsandloses[0]+winsandloses[1]) * 100;
+    winrate = Math.round(winrate * 100) / 100;
+    orange_chart.setAttribute('stroke-dasharray',`${winrate},100`);
+    orange_chart_percent.innerHTML=`${winrate}%`;
 }
 
 function sleep(ms) {
