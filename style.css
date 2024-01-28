@@ -428,7 +428,8 @@ input::-webkit-inner-spin-button {
 .stats
 {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
     justify-content: space-around;
     font-size: 20px;
 }
@@ -471,6 +472,7 @@ input::-webkit-inner-spin-button {
 
 .container-table tr {
     background-color: #f8d478;
+    text-align: center;
 }
 
 .container-table th {

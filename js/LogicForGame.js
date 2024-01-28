@@ -72,6 +72,10 @@ function LoadFromLocalStorage()
         counterarray = t2.split(',').map(Number);
         ChangeCounterForCards();
     }
+    else
+    {
+        ChangeCounterForCards();
+    }
     if (winrate!=null)
     {
         winsandloses = winrate.split(',').map(Number);
@@ -94,9 +98,10 @@ function CheckSkipTimer(checkbox)
 function ForbtnStart()
 {
     var idinterval;
-    if (idtimeformatchinput.value=='' || idmatchesinput.value=='' || idmatchesinput.validity.patternMismatch || idtimeformatchinput.validity.patternMismatch)
+    if (RegExp("^[1-9][0-9]*$").exec(idmatchesinput.value) == null ||RegExp("^[1-9][0-9]*$").exec(idtimeformatchinput.value) == null)
     {
         console.log('Неверный ввод');
+        alert('Неверный ввод');
         return;
     }
     DeselectCard();
@@ -327,6 +332,7 @@ function SaveToLocalStorageBad()
 function ClearHistoryAndStorage()
 {
     localStorage.clear();
+
     historyofgames.innerHTML='';
     counterforcards.innerHTML='';
 }
