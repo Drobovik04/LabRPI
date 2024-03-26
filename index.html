@@ -78,27 +78,30 @@
                 <div class="placeforplayercard"></div>
             </div>
             <div class="hand">
+                <div class="arrow">
+                    ⬇
+                </div>
                 <!--может добавить фон под картами-->
-                <div class="card card-rock">
+                <div class="card card-rock" onclick="toggleArrow(this)">
                     <div class="rock">
                         ✊
                     </div>
                 </div>
-                <div class="card card-paper">
+                <div class="card card-paper" onclick="toggleArrow(this)">
                     <div class="paper">
                         ✋
                     </div>
                 </div>
-                <div class="card card-scissors">
+                <div class="card card-scissors" onclick="toggleArrow(this)">
                     <div class="scissors">
                         ✂️
                     </div>
                 </div>
-                <div class="card card-lizard">
+                <div class="card card-lizard" onclick="toggleArrow(this)">
                     <div class="lizard">
                         🦎
                     </div>
-                </div><div class="card card-fox">
+                </div><div class="card card-fox" onclick="toggleArrow(this)">
                     <div class="fox">
                         🦊
                     </div>
@@ -127,6 +130,22 @@
                 </ul>
             </div>
             <button class="button deletehistory">Очистить статистику</button>
+            <div class="infoaboutgame">
+                <h3 style="text-align: center;">Правила</h3>
+                <ul>
+                    <li>Кол-во матчей в раунде задает кол-во матчей, которые необходимо выиграть, чтобы выйти победителем.</li>
+                    <li>Время на матч задает количество секунд на один матч.</li>
+                    <li>Так же можно поставить галочку для перехода к следующему матчу сразу после выбора карты.</li>
+                </ul>
+                <h3 style="text-align: center;">Кто кого бьет</h3>
+                <ul class="power">
+                    <li>✊➜✂️🦎</li>
+                    <li>✋➜✊🦊</li>
+                    <li>✂️➜✋🦎</li>
+                    <li>🦎➜✋🦊</li>
+                    <li>🦊➜✊✂️</li>
+                </ul>
+            </div>
         </div>
         </div>
     </div>

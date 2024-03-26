@@ -268,6 +268,7 @@ function DeselectCard()
 {
     if (chosenCard==null) return;
     chosenCard.style.borderColor='black';
+    document.querySelector('.arrow').style.display='none';
     chosenCard = null;
 }
 function ChooseCard(element)
@@ -346,4 +347,15 @@ function ChangeWinRate()
 
 function sleep(ms) {
     return new Promise(res => setTimeout(res, ms));
-  }
+}
+function toggleArrow(card) {
+    var arrow = document.querySelector('.arrow');
+    var cardRect = card.getBoundingClientRect();
+    var arrowRect = arrow.getBoundingClientRect();
+    var topPosition = cardRect.top - arrowRect.height/2 - 5;
+    var leftPosition = cardRect.left + (cardRect.width / 2) - (arrowRect.width / 2);
+    
+    arrow.style.top = topPosition + 'px';
+    arrow.style.left = leftPosition + 'px';
+    arrow.style.display = 'block';
+}

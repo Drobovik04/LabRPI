@@ -57,6 +57,24 @@ body
     flex-wrap: wrap;
     justify-content: center;
 }
+.infoaboutgame{
+    font-size: 15px;
+    list-style: none;
+}
+.infoaboutgame li{
+    list-style: none;
+}
+.infoaboutgame ul{
+    padding: 0px;
+}
+.power{
+    font-size: 20px;
+}
+.arrow{
+    font-size: 30px;
+    position: absolute;
+    display: none;
+}
 .field
 {
     margin: 20px 0 20px 0;
